@@ -1,0 +1,398 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Angabe zum dritten Beispiel des Labor&#252;bungsteils aus Datenmodellierung SS08</TITLE>
+<META NAME="description" CONTENT="Angabe zum dritten Beispiel des Labor&#252;bungsteils aus Datenmodellierung SS08">
+<META NAME="keywords" CONTENT="SQL">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script><script src="https://www.informatik.tuwien.ac.at/schluesseltechnologie-assets/pageflip.js" type="text/javascript"></script><script src="https://www.informatik.tuwien.ac.at/schluesseltechnologie-assets/overlay.js" type="text/javascript"></script></head>
+
+<BODY>
+
+<P>
+<H1 ALIGN="CENTER"><B>Angabe zum dritten Beispiel des Labor&#252;bungsteils aus
+Datenmodellierung <font color=#FF0000>SS08</font></B></H1>
+<DIV>
+
+<P ALIGN="CENTER"><STRONG>Markus Pichlmair, Katrin Seyr</STRONG></P>
+<P ALIGN="CENTER"><I>
+<TT>dm@dbai.tuwien.ac.at</TT></I></P>
+</DIV>
+
+<P>
+<BR><HR>
+<!--Table of Child-Links-->
+<A NAME="CHILD_LINKS"></A>
+
+<UL>
+<LI><A HREF="#Allgemeines">Allgemeines</A>
+<LI><A HREF="#Abgabegespraech">Das Abgabegespräch</A>
+<LI><A HREF="#Datenbank">Flugschule - Die Datenbank</A>
+<UL>
+<LI><A HREF="#Beschreibung">Beschreibung</A>
+<LI><A HREF="#Relationenmodell">Das Relationenmodell</A>
+<LI><A HREF="#Implementierung">Die Implementierung der Tabellen</A>
+<LI><A HREF="#Abfragen">Die SQL-Anfragen</A>
+</UL>
+<BR>
+
+
+<hr>
+<H1><A NAME="Allgemeines">
+Allgemeines</A>
+</H1>
+
+<P>
+In diesem &#220;bungsteil sollten Sie das Erstellen von SQL-Anfragen 
+&#252;ben. 
+Dazu wird unter <TT><A NAME="tex2html1"
+  HREF="http://websql.dbai.tuwien.ac.at">http://websql.dbai.tuwien.ac.at</A></TT> (SS08 FIXED) ein
+Interface zum Zugriff auf eine Postgres Datenbank (v.8.1) zur
+Verf&#252;gung gestellt. Falls Sie lieber auf Ihrer eigenen Datenbank arbeiten, k&#246;nnen Sie die Testdaten f&#252;r dieses Beispiel auf der Webseite als <TT>daten.zip</TT> herunterladen.
+
+<P>
+Bitte versuchen Sie nach M&#246;glichkeit die Beispiele eigenst&#228;ndig zu
+l&#246;sen, denn in der Praxis (und bei der Pr&#252;fung) sind Sie auch auf sich
+alleine gestellt. 
+
+<P>
+<BR><HR>
+
+
+<H1><A NAME="Abgabegespraech">
+Das Abgabegespr&#228;ch</A>
+</H1>
+
+<P>
+
+<OL>
+<LI>Sie m&#252;ssen sich &#252;ber den LVAManager zu einem Abgabegespr&#228;ch
+anmelden. F&#252;r jede Person steht maximal ein Abgabetermin zur Verf&#252;gung. 
+
+<P>
+</LI>
+<LI>Sie m&#252;ssen die ersten zw&#246;lf der untenstehenden Anfragen
+  l&#246;sen. Weiters m&#252;ssen Sie f&#252;nf weitere Anfragen l&#246;sen, die Sie
+  frei w&#228;hlen k&#246;nnen.
+
+<P>
+</LI>
+<LI>Sie kommen mit Studentenausweis und den Unterlagen auf USB Stick
+im Informatiklabor zu der von Ihnen reservierten Zeit vorbei, 
+und absolvieren das Abgabegespr&#228;ch. (Achtung: Wir akzeptieren als Format nur eine Textdatei mit plain Text im ASCII Format.) 
+
+<P>
+</LI>
+<LI>Sie haben maximal 20 Minuten f&#252;r Ihre Abgabe.
+
+<P>
+</LI>
+<LI>Sie k&#246;nnen maximal 15 Punkte bei der Abgabe erreichen. Sie
+  werden dabei zu drei von Ihren siebzehn Anfragen befragt. Dabei
+  k&#246;nnen Sie jeweils maximal f&#252;nf Punkte erreichen, wobei nicht nur
+  die Korrektheit der Abfrage &#252;berpr&#252;ft wird, sondern Sie m&#252;ssen die
+  Abfragen auch erkl&#228;ren und modifizieren k&#246;nnen. Weiters wird
+  erwartet, dass Sie wissen, was die von Ihnen in einem SQL Statement
+  verwendeten Ausdr&#252;cke bedeuten bzw. was sie bewirken.
+
+<P>
+</LI>
+<LI>Die Tutoren tragen ein Protokoll des Abgabegespr&#228;chs ein. Die
+erreichte Gesamtpunktezahl ist im LVAManager f&#252;r Sie ersichtlich.
+</LI>
+</OL>
+
+<P>
+<HR>
+<H1><A NAME="Datenbank">
+Flugschule - Die Datenbank</A>
+</H1>
+Sie erhalten den Auftrag f&#252;r eine kleine Flugschule folgende Datenbank zu implementieren. 
+
+<P>
+<BR>
+
+<H2><A NAME="Beschreibung">
+Beschreibung</A>
+</H2>
+
+<P>
+Personen haben eine eindeutige Nummer sowie einen Namen und ein Gebutsdatum. Die Personen werden in Lehrer, Sch&#252;ler und Mechaniker eingeteilt. Bei Lehrern ist die bisher geflogene Stundenanzahl als Erfahrung bekannt.
+
+<P>
+Die Flugzeuge der Schule sind ebenfalls in der Datenbank vermerkt: Jedes Flugzeug hat eine eindeutige ID und es sind Name, Modell, Hersteller und die Fl&#252;gelspannweite bekannt. Die Flugzeuge werden in Motor- und Segelflugzeuge eingeteilt, wobei bei Motorflugzeugen auch die PS-Leistung der Motoren bekannt ist.
+
+<P>
+Pro Sch&#252;ler werden die genommenen Flugeinheiten gespeichert, welche durch die Kombination der Nummer des Sch&#252;lers und dem Datum der Einheit eindeutig sind. Zu jeder Flugeinheit wird die Dauer und der vermittelte Lehrinhalt gespeichert. Genau ein Lehrer gibt bei einer solchen Flugeinheit Unterricht. Au&#223;erdem wird die Flugeinheit mit genau einem Flugzeug geflogen.
+
+<P>
+Die Lehrer der Schule besitzen beliebig viele Flugzeuge, ein Flugzeug geh&#246;rt entweder genau einem Lehrer oder der Flugschule (Es wird also kein Besitzer in der Datenbank eingetragen).
+<BR>
+Zur Wartung der Flugzeuge besitzt die Schule mehrere Hangar. Diese werden durch einen Namen identifiziert und weiters ist die Fl&#228;che bekannt. Jedem Hangar sind beliebig viele Mechaniker zur Verwaltung zugeteilt und ein Mechaniker verwaltet beliebig viele Hangar. Ein Flugzeug kann, muss aber nicht, in einem Hangar abgestellt werden, in jedem Hangar ist Platz f&#252;r bis zu acht Flugzeuge. Mechaniker betreuen jene Flugzeuge, die in dem Hangar stehen, welchen sie verwalten.
+
+<P>
+Die Lehrer der Flugschule nehmen immer wieder an Wettbewerben Teil, um ihr K&#246;nnen unter Beweis zu stellen. Ein Wettbewerb ist eindeutig identifiziert durch das Datum und den Namen der Veranstaltung. Weiters sind Austragungsort und Land bekannt. Es wird gespeichert, welcher Lehrer bei welchem Wettbewerb welches Flugzeug geflogen hat und welche Platzierung er dabei erreichte.
+
+<P>
+
+<H2>ER - Diagramm</H2>
+<DIV ALIGN="CENTER">
+
+<img src=flugschule.jpg></img>
+</DIV>
+
+<P>
+<H2><A NAME="Relationenmodell">
+Das Relationenmodell</A>
+</H2>
+<TT>
+
+Person(<U>Nummer</U>, Name, Geburtsdatum)
+<BR>
+Mechaniker(<U>Person.Nummer</U>)
+<BR>
+Schueler(<U>Person.Nummer</U>)
+<BR>
+Lehrer(<U>Person.Nummer</U>, Erfahrung)
+<BR></TT>
+<P>
+<TT>
+Flugzeug(<U>Id</U>, Name, Modell, Hersteller, Spannweite)
+<BR>
+Segelflugzeug(<U>Flugzeug.Id</U>)
+<BR>
+Motorflugzeug(<U>Flugzeug.Id</U>, Leistung)
+<BR></TT>
+<P>
+<TT>
+besitzt(<U>Flugzeug.Id</U>, Lehrer.Nummer)
+<BR></TT>
+<P>
+<TT>
+Hangar(<U>Name</U>, Fl&#228;che)
+<BR>
+verwaltet (<U>Hangar.Name, Mechaniker.Nummer</U>)
+<BR>
+abgestellt (<U>Flugzeug.Id</U>, Hangar.Name)
+<BR></TT>
+<P>
+<TT>
+Flugeinheit(<U>Schueler.Nummer, Datum</U>, Dauer, Lehrinhalt, 
+<BR>
+Lehrer.Nummer, Flugzeug.Id)
+<BR></TT>
+<P>
+<TT>
+Wettbewerb(<U>Datum, Name</U>, Ort, Land)
+<BR>
+fliegt(<U>Lehrer.Nummer, Flugzeug.Id, Wettbewerb.Datum,</U>
+<BR>
+ <U>Wettbewerb.Name</U>, Platz)
+<BR></TT>
+<P>
+
+<P>
+<BR>
+
+<H2><A NAME="Implementierung">
+Die Implementierung der Tabellen</A>
+</H2>
+
+<P>
+<TT>
+
+Person(<U>nummer</U>, name, geburtsdatum)
+<BR>
+Mechaniker(<U>nummer</U>)
+<BR>
+Schueler(<U>nummer</U>)
+<BR>
+Lehrer(<U>nummer</U>, erfahrung)
+<BR></TT>
+<P>
+<TT>
+Flugzeug(<U>id</U>, name, modell, hersteller, spannweite)
+<BR>
+Segelflugzeug(<U>id</U>)
+<BR>
+Motorflugzeug(<U>id</U>, leistung)
+<BR></TT>
+<P>
+<TT>
+besitzt(<U>id</U>, nummer)
+<BR></TT>
+<P>
+<TT>
+Hangar(<U>name</U>, flaeche)
+<BR>
+verwaltet (<U>name, nummer</U>)
+<BR>
+abgestellt (<U>id</U>, name)
+<BR></TT>
+<P>
+<TT>
+Flugeinheit(<U>snummer, datum</U>, dauer, lehrinhalt, lnummer, id)
+<BR></TT>
+<P>
+<TT>
+Wettbewerb(<U>datum, name</U>, ort, land)
+<BR>
+fliegt(<U>nummer, id, datum, name</U>, platz)
+<BR></TT>
+<P>
+
+<P>
+
+<P>
+<BR>
+
+<HR>
+<H2><A NAME="Abfragen">
+Die SQL-Anfragen</A>
+</H2>
+
+<P>
+
+<OL>
+<LI><OL>
+<LI>Geben Sie den Namen, das Modell, den Hersteller und die Spannweite aller Flugzeuge aus.
+</LI>
+<LI>Geben Sie den Namen das Modell, den Hersteller und die Leistung aller Motorflugzeuge sortiert nach Leistung aus.
+</LI>
+</OL>
+
+<P>
+</LI>
+<LI>Geben Sie jene Hersteller aus, die Motorflugzeuge mit einer Leistung gr&#246;&#223;er als 100 PS im Programm haben. Vermeiden Sie dabei, dass ein Hersteller in Ihrer Liste doppelt angef&#252;hrt wird.
+
+<P>
+</LI>
+<LI>Wieviele Flugeinheiten wurden seit dem 1.1.2008 abgehalten?
+
+<P>
+</LI>
+<LI>Welche Mechaniker (Nummer) betreuen das Flugzeug mit der ID 1.
+
+<P>
+</LI>
+<LI><OL>
+<LI>Geben Sie die Flugzeuge (ID und Name) und deren Besitzer (Nummer) aus.
+</LI>
+<LI>Geben Sie eine Liste ALLER Flugzeuge (ID und Name) aus und dazu,
+sofern vorhanden, die Nummer des Besitzers. Wenn kein Besitzer
+existiert, soll stattdessen die Nummer '999' ausgegeben werden
+(keyword coalesce).
+</LI>
+<LI>Geben Sie eine Liste ALLER Flugzeuge (ID und Name) aus und dazu,
+sofern vorhanden, den Namen des Besitzers. Wenn kein Besitzer
+existiert, soll stattdessen 'kein Besitzer' ausgegeben werden.
+</LI>
+</OL>
+
+<P>
+</LI>
+<LI>Geben Sie eine Liste ALLER Flugzeuge aus und wenn der Besitzer
+schon erfahren genug ist (mehr als 1000h Erfahrung), auch den Namen
+des Besitzers, ansonsten: 'kein erfahrener Besitzer'. 
+
+<P>
+</LI>
+<LI>Geben Sie den Namen und das Geburtsdatum der j&#252;ngsten Sch&#252;ler aus.
+
+<P>
+</LI>
+<LI>Gesucht sind jene Personen (Name und Geburtsdatum) die sowohl Lehrer als auch Mechaniker sind und mindestens eine Erfahrung von 1000 Stunden haben.
+
+<P>
+</LI>
+<LI>Geben Sie die Namen der besten Sch&#252;ler (jene Sch&#252;ler mit der meisten Flugzeit), die gesamte Flugzeit und die Anzahl der Flugeinheiten aus.
+
+<P>
+</LI>
+<LI>Geben Sie eine Liste aller Personen aus die entweder Mechaniker oder Lehrer, aber nicht beides sind und vermerken Sie in der Liste ob es sich um einen Mechaniker oder Lehrer handelt.
+
+<P>
+</LI>
+<LI>Gesucht sind die Namen jener Lehrer, die an allen Wettbewerben in den USA Teil genommen haben.
+
+<P>
+</LI>
+<LI>Bei wievielen Wettbewerben war Herr Stefan Brunner unter den ersten drei Pl&#228;tzen?
+
+<P>
+</LI>
+<LI>Geben Sie eine Liste von Pl&#228;tzen aus, die die Flugschule bei Wettbewerben mit dem Namen 'Kunstflugschau' gemacht hat, und dazu die Anzahl der Pl&#228;tze, sortiert nach Pl&#228;tze.
+
+<P>
+</LI>
+<LI>Gesucht sind jene Segelflugzeuge mit der gr&#246;&#223;ten Spannweite, die noch nie in einem Wettbewerb mitgeflogen sind.
+
+<P>
+</LI>
+<LI>Geben Sie eine Liste ALLER Hangar aus und die Anzahl der Flugzeuge die dem Hangar zugeteilt sind.
+
+<P>
+</LI>
+<LI>Um wieviel Leistung bringen durchschnittlich die Flugzeuge des Herstellers 'Flug und Trug' mehr als alle anderen Hersteller?
+
+<P>
+</LI>
+<LI>Geben Sie f&#252;r statistische Zwecke eine Liste ALLER Lehrer
+(Namen) und deren Erfahrung aus, sowie die Anzahl der Flugeinheiten, die der Lehrer unterrichtet hat, und die durchschnittliche Dauer dieser Flugeinheiten.
+
+<P>
+</LI>
+<LI>Geben Sie den Namen und das Geburtsdatum jener Lehrer aus, die mindestens 20% aller Sch&#252;ler unterrichtet haben, die schon Flugeinheiten absolviert haben. 
+
+<P>
+</LI>
+<LI>Welche Sch&#252;ler sind &#228;lter als der j&#252;ngste Lehrer?
+
+<P>
+</LI>
+<LI>Gesucht sind die Namen jener Lehrer die schon Start und/oder Landung unterrichtet haben jedoch noch nicht Perfektionsflug.
+
+<P>
+</LI>
+<LI>Geben Sie f&#252;r Wettbewerbe (Datum, Name) den Namen des Gewinners (jene Person mit dem ersten Platz) aus.
+
+<P>
+</LI>
+<LI>Geben Sie für jeden Lehrer, Name, Geburtsdatum, und die Anzahl der
+von ihm unterrichteten Schüler aus.
+
+<P>
+</LI>
+<LI>Geben Sie eine Liste ALLER Lehrer (Namen) aus und wieviele andere Lehrer es gibt, die mehr Erfahrung haben.
+
+<P>
+</LI>
+<LI>Geben Sie eine Liste ALLER Sch&#252;ler aus und das Datum der
+letzten von ihnen absolvierten Flugeinheit.
+
+<P>
+</LI>
+</OL>
+
+<P>
+
+
+<!--End of Table of Child-Links-->
+<BR><HR>
+<ADDRESS>
+Markus Pichlmair
+2008-05-05
+</ADDRESS>
+</BODY>
+</HTML>
