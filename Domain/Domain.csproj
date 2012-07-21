@@ -41,6 +41,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Aircraft.cs" />
+    <Compile Include="FlightUnit.cs" />
+    <Compile Include="Hangar.cs" />
+    <Compile Include="Mechanic.cs" />
     <Compile Include="MotorizedAircraft.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -53,6 +53,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AircraftMap.cs" />
+    <Compile Include="FlightUnitMap.cs" />
+    <Compile Include="HangarMap.cs" />
+    <Compile Include="MechanicMap.cs" />
     <Compile Include="MotorizedAircraftMap.cs" />
     <Compile Include="NHibernateBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

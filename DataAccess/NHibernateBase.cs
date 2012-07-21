@@ -6,7 +6,7 @@ namespace DataAccess
 {
     public class NHibernateBase
     {
-        private static NHibernate.ISessionFactory sessionFactory;
+        private static ISessionFactory sessionFactory;
 
         protected static ISessionFactory SessionFactory { get; set; }
 
