@@ -1,0 +1,10 @@
+INSERT INTO abgestellt VALUES ('A1', 01);
+INSERT INTO abgestellt VALUES ('A1', 03);
+INSERT INTO abgestellt VALUES ('A1', 04);
+INSERT INTO abgestellt VALUES ('B1', 05);
+INSERT INTO abgestellt VALUES ('B1', 06);
+INSERT INTO abgestellt VALUES ('B1', 07);
+INSERT INTO abgestellt VALUES ('B1', 12);
+INSERT INTO abgestellt VALUES ('B2', 02);
+INSERT INTO abgestellt VALUES ('B2', 09);
+INSERT INTO abgestellt VALUES ('C1', 11);

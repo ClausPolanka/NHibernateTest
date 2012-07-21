@@ -1,0 +1,14 @@
+DROP TABLE fliegt;
+DROP TABLE Wettbewerb;
+DROP TABLE Flugeinheit;
+DROP TABLE abgestellt;
+DROP TABLE verwaltet;
+DROP TABLE Hangar ;
+DROP TABLE besitzt;
+DROP TABLE Segelflugzeug;
+DROP TABLE Motorflugzeug;
+DROP TABLE Flugzeug;
+DROP TABLE Schueler;
+DROP TABLE Lehrer;
+DROP TABLE Mechaniker;
+DROP TABLE Person;

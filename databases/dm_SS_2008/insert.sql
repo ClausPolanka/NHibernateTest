@@ -1,0 +1,14 @@
+:r .\insert-person.sql
+:r .\insert-mechaniker.sql
+:r .\insert-lehrer.sql
+:r .\insert-schueler.sql
+:r .\insert-flugzeug.sql
+:r .\insert-motorflugzeug.sql
+:r .\insert-segelflugzeug.sql
+:r .\insert-besitzt.sql
+:r .\insert-hangar.sql
+:r .\insert-verwaltet.sql
+:r .\insert-abgestellt.sql
+:r .\insert-flugeinheit.sql
+:r .\insert-wettbewerb.sql
+:r .\insert-fliegt.sql

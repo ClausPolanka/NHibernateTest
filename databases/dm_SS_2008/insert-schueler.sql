@@ -1,0 +1,24 @@
+-- Schueler
+INSERT INTO Schueler VALUES (03);
+INSERT INTO Schueler VALUES (04);
+INSERT INTO Schueler VALUES (06);
+INSERT INTO Schueler VALUES (07);
+INSERT INTO Schueler VALUES (08);
+INSERT INTO Schueler VALUES (09);
+INSERT INTO Schueler VALUES (23);
+INSERT INTO Schueler VALUES (24);
+INSERT INTO Schueler VALUES (25);
+INSERT INTO Schueler VALUES (26);
+INSERT INTO Schueler VALUES (27);
+INSERT INTO Schueler VALUES (28);
+INSERT INTO Schueler VALUES (29);
+INSERT INTO Schueler VALUES (34);
+INSERT INTO Schueler VALUES (35);
+INSERT INTO Schueler VALUES (36);
+INSERT INTO Schueler VALUES (37);
+INSERT INTO Schueler VALUES (38);
+INSERT INTO Schueler VALUES (39);
+INSERT INTO Schueler VALUES (40);
+
+-- 05, 11, 22, 33 weder in Schueler, noch in Mechaniker oder Lehrer
+-- 23, 34 sind auch Mechaniker

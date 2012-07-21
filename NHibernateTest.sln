@@ -3,6 +3,33 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NHibernateTest", "NHibernateTest\NHibernateTest.csproj", "{2E445F5D-7703-49FF-B7E5-D1A6B62856AC}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{D051357D-A8D6-4725-AEA8-9945A91F2322}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "databases", "databases", "{3639F00C-5CDB-4FE8-B2E6-6848F8DDE9AA}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "dm_ss_2008", "dm_ss_2008", "{47CE9D13-D642-4518-88B1-A68E8263B3F0}"
+	ProjectSection(SolutionItems) = preProject
+		databases\dm_SS_2008\create.sql = databases\dm_SS_2008\create.sql
+		databases\dm_SS_2008\drop.sql = databases\dm_SS_2008\drop.sql
+		execute_scripts.bat = execute_scripts.bat
+		databases\dm_SS_2008\insert-abgestellt.sql = databases\dm_SS_2008\insert-abgestellt.sql
+		databases\dm_SS_2008\insert-besitzt.sql = databases\dm_SS_2008\insert-besitzt.sql
+		databases\dm_SS_2008\insert-fliegt.sql = databases\dm_SS_2008\insert-fliegt.sql
+		databases\dm_SS_2008\insert-flugeinheit.sql = databases\dm_SS_2008\insert-flugeinheit.sql
+		databases\dm_SS_2008\insert-flugzeug.sql = databases\dm_SS_2008\insert-flugzeug.sql
+		databases\dm_SS_2008\insert-hangar.sql = databases\dm_SS_2008\insert-hangar.sql
+		databases\dm_SS_2008\insert-lehrer.sql = databases\dm_SS_2008\insert-lehrer.sql
+		databases\dm_SS_2008\insert-mechaniker.sql = databases\dm_SS_2008\insert-mechaniker.sql
+		databases\dm_SS_2008\insert-motorflugzeug.sql = databases\dm_SS_2008\insert-motorflugzeug.sql
+		databases\dm_SS_2008\insert-person.sql = databases\dm_SS_2008\insert-person.sql
+		databases\dm_SS_2008\insert-schueler.sql = databases\dm_SS_2008\insert-schueler.sql
+		databases\dm_SS_2008\insert-segelflugzeug.sql = databases\dm_SS_2008\insert-segelflugzeug.sql
+		databases\dm_SS_2008\insert-verwaltet.sql = databases\dm_SS_2008\insert-verwaltet.sql
+		databases\dm_SS_2008\insert-wettbewerb.sql = databases\dm_SS_2008\insert-wettbewerb.sql
+		databases\dm_SS_2008\insert.sql = databases\dm_SS_2008\insert.sql
+		main.sql = main.sql
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
@@ -16,5 +43,9 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{3639F00C-5CDB-4FE8-B2E6-6848F8DDE9AA} = {D051357D-A8D6-4725-AEA8-9945A91F2322}
+		{47CE9D13-D642-4518-88B1-A68E8263B3F0} = {3639F00C-5CDB-4FE8-B2E6-6848F8DDE9AA}
 	EndGlobalSection
 EndGlobal
