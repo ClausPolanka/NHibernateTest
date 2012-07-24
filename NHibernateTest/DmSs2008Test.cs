@@ -5,6 +5,7 @@ using System.Linq;
 using DataAccess;
 using Domain;
 using NHibernate;
+using NHibernate.Criterion;
 using NUnit.Framework;
 
 namespace NHibernateTest
@@ -24,7 +25,7 @@ namespace NHibernateTest
         public void SelectNameModelManufacturerAndWingspanOfAllAircrafts()
         {
             IList aircrafts = TranactionContext.Execute(sessionFactory, session => session.CreateQuery(
-            
+
                 "select Name, Model, Manufacturer, Wingspan " +
                 "from Aircraft"
 
@@ -35,14 +36,51 @@ namespace NHibernateTest
         }
 
         [Test]
-        public void SelectNameModelManufacturerAndPowerOfAll()
+        public void SelectNameModelManufacturerAndWingspanOfAllAircrafts_UsingICriteria()
+        {
+            TranactionContext.Execute(sessionFactory, session =>
+            {
+                IList aircrafts =
+                    session.CreateCriteria<Aircraft>().SetProjection(
+                        Projections.ProjectionList()
+                            .Add(Projections.Property("Name"))
+                            .Add(Projections.Property("Model"))
+                            .Add(Projections.Property("Manufacturer"))
+                            .Add(Projections.Property("Wingspan"))).List();
+
+                Assert.That(aircrafts.Count, Is.EqualTo(15), "number of aircrafts");
+                AssertAttributeValuesForOneAircraftOf(aircrafts);
+            });
+        }
+
+        [Test]
+        public void SelectNameModelManufacturerAndPowerOfAllMotorizedAircrafts()
         {
             IList motorizedAircrafts = TranactionContext.Execute(sessionFactory, session => session.CreateQuery(
-                
+
                 "select Aircraft.Name, Aircraft.Manufacturer, EnginePower " +
                 "from MotorizedAircraft"
-            
+
             ).List());
+
+            Assert.That(motorizedAircrafts.Count, Is.EqualTo(7), "number of motorized aircrafts");
+            AssertAttributeValuesForOneMotorizedAircraft(motorizedAircrafts);
+        }
+
+
+        [Test]
+        public void SelectNameModelManufacturerAndPowerOfAllMotorizedAircrafts_UsingICriteria()
+        {
+            IList motorizedAircrafts = TranactionContext.Execute(sessionFactory, session =>
+            {
+                return session.CreateCriteria<MotorizedAircraft>("ma")
+                        .CreateAlias("Aircraft", "a")
+                        .SetProjection(Projections.ProjectionList()
+                            .Add(Projections.Property("a.Name"))
+                            .Add(Projections.Property("a.Manufacturer"))
+                            .Add(Projections.Property("ma.EnginePower")))
+                        .List();
+            });
 
             Assert.That(motorizedAircrafts.Count, Is.EqualTo(7), "number of motorized aircrafts");
             AssertAttributeValuesForOneMotorizedAircraft(motorizedAircrafts);
@@ -52,7 +90,7 @@ namespace NHibernateTest
         public void SelectDistinctManufacturerOfMotorizedAircrafts_HavingEnginePowerHigherThan100()
         {
             IList motorizedAircrafts = TranactionContext.Execute(sessionFactory, session => session.CreateQuery(
-             
+
                 "select distinct Aircraft.Manufacturer " +
                 "from MotorizedAircraft where EnginePower > 100"
 
@@ -64,10 +102,28 @@ namespace NHibernateTest
         }
 
         [Test]
+        public void SelectDistinctManufacturerOfMotorizedAircrafts_HavingEnginePowerHigherThan100_UsingICriteria()
+        {
+            IList motorizedAircrafts = TranactionContext.Execute(sessionFactory, session =>
+            {
+                return session.CreateCriteria<MotorizedAircraft>("ma")
+                        .CreateAlias("Aircraft", "a")
+                        .SetProjection(Projections.ProjectionList()
+                            .Add(Projections.Distinct(Projections.Property("a.Manufacturer"))))
+                        .Add(Restrictions.Gt("ma.EnginePower", 100))
+                        .List();
+            });
+
+            Assert.That(motorizedAircrafts.Count, Is.EqualTo(2), "number of motorized aircrafts");
+            Assert.That(motorizedAircrafts[0], Is.EqualTo("AirJet"), "aircraft manufacturer");
+            Assert.That(motorizedAircrafts[1], Is.EqualTo("Flug und Trug"), "aircraft manufacturer");
+        }
+
+        [Test]
         public void SelectNumberOfFlightUnits_Since_01_01_2008()
         {
             IList flightUnits = TranactionContext.Execute(sessionFactory, session => session.CreateQuery(
-                
+
                 "select count(*) " +
                 "from FlightUnit where Date > :p"
 
@@ -78,15 +134,16 @@ namespace NHibernateTest
         }
 
         [Test]
-        public void SelectNumbersOfAllMechanicsWhichLookAfterAircraftWithIdOne()
+        public void SelectNumbersOfAllMechanicsWhichLookAfterAircraft_WhereAircraftHasAnIdOfOne()
         {
             IList<Mechanic> mechanics = TranactionContext.Execute(sessionFactory, session =>
             {
                 IList<Mechanic> ms = session.CreateQuery("from Mechanic").List<Mechanic>();
                 return (from m in ms
-                            from h in (from h in m.Hangars
-                                           from a in h.Aircrafts.Where(a => a.Id == 1) 
-                                       select h) 
+                        from h in
+                            (from h in m.Hangars
+                             from a in h.Aircrafts.Where(a => a.Id == 1)
+                             select h)
                         select m).ToList();
             });
 
@@ -96,17 +153,17 @@ namespace NHibernateTest
 
         private static void AssertAttributeValuesForOneAircraftOf(IList aircrafts)
         {
-            Assert.That(((object[]) aircrafts[0])[0], Is.EqualTo("Tornado"), "aircraft name");
-            Assert.That(((object[]) aircrafts[0])[1], Is.EqualTo("ES 3"), "aircraft model");
-            Assert.That(((object[]) aircrafts[0])[2], Is.EqualTo("Flug und Trug"), "aircraft manufacturer");
-            Assert.That((double) ((object[]) aircrafts[0])[3], Is.EqualTo(26.58).Within(0.001), "aircraft wingspan");
+            Assert.That(((object[])aircrafts[0])[0], Is.EqualTo("Tornado"), "aircraft name");
+            Assert.That(((object[])aircrafts[0])[1], Is.EqualTo("ES 3"), "aircraft model");
+            Assert.That(((object[])aircrafts[0])[2], Is.EqualTo("Flug und Trug"), "aircraft manufacturer");
+            Assert.That((double)((object[])aircrafts[0])[3], Is.EqualTo(26.58).Within(0.001), "aircraft wingspan");
         }
 
         private static void AssertAttributeValuesForOneMotorizedAircraft(IList motorizedAircrafts)
         {
-            Assert.That(((object[]) motorizedAircrafts[0])[0], Is.EqualTo("Tornado"), "aircraft name");
-            Assert.That(((object[]) motorizedAircrafts[0])[1], Is.EqualTo("Flug und Trug"), "aircraft manufacturer");
-            Assert.That(((object[]) motorizedAircrafts[0])[2], Is.EqualTo(120), "aircraft engine power");
+            Assert.That(((object[])motorizedAircrafts[0])[0], Is.EqualTo("Tornado"), "aircraft name");
+            Assert.That(((object[])motorizedAircrafts[0])[1], Is.EqualTo("Flug und Trug"), "aircraft manufacturer");
+            Assert.That(((object[])motorizedAircrafts[0])[2], Is.EqualTo(120), "aircraft engine power");
         }
 
         private static void AssertMechanicNumbersOf(IList<Mechanic> mechanics)
