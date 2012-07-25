@@ -74,12 +74,12 @@ namespace NHibernateTest
             IList motorizedAircrafts = TranactionContext.Execute(sessionFactory, session =>
             {
                 return session.CreateCriteria<MotorizedAircraft>("ma")
-                        .CreateAlias("Aircraft", "a")
-                        .SetProjection(Projections.ProjectionList()
-                            .Add(Projections.Property("a.Name"))
-                            .Add(Projections.Property("a.Manufacturer"))
-                            .Add(Projections.Property("ma.EnginePower")))
-                        .List();
+                    .CreateAlias("Aircraft", "a")
+                    .SetProjection(Projections.ProjectionList()
+                        .Add(Projections.Property("a.Name"))
+                        .Add(Projections.Property("a.Manufacturer"))
+                        .Add(Projections.Property("ma.EnginePower")))
+                    .List();
             });
 
             Assert.That(motorizedAircrafts.Count, Is.EqualTo(7), "number of motorized aircrafts");
@@ -107,11 +107,11 @@ namespace NHibernateTest
             IList motorizedAircrafts = TranactionContext.Execute(sessionFactory, session =>
             {
                 return session.CreateCriteria<MotorizedAircraft>("ma")
-                        .CreateAlias("Aircraft", "a")
-                        .SetProjection(Projections.ProjectionList()
-                            .Add(Projections.Distinct(Projections.Property("a.Manufacturer"))))
+                    .CreateAlias("Aircraft", "a")
+                    .SetProjection(Projections.ProjectionList()
+                        .Add(Projections.Distinct(Projections.Property("a.Manufacturer"))))
                         .Add(Restrictions.Gt("ma.EnginePower", 100))
-                        .List();
+                    .List();
             });
 
             Assert.That(motorizedAircrafts.Count, Is.EqualTo(2), "number of motorized aircrafts");
@@ -131,6 +131,20 @@ namespace NHibernateTest
             .List());
 
             Assert.That(flightUnits[0], Is.EqualTo(30), "number of flight units");
+        }
+
+        [Test]
+        public void SelectNumberOfFlightUnits_Since_01_01_2008_UsingICriteria()
+        {
+            Int32 flightUnits = TranactionContext.Execute(sessionFactory, session =>
+            {
+                return session.CreateCriteria<FlightUnit>()
+                    .SetProjection(Projections.RowCount())
+                    .Add(Restrictions.Gt("Date", new DateTime(2008, 1, 1)))
+                    .UniqueResult<Int32>();
+            });
+
+            Assert.That(flightUnits, Is.EqualTo(30), "number of flight units");
         }
 
         [Test]
