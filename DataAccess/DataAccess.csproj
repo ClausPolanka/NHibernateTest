@@ -59,6 +59,7 @@
     <Compile Include="MotorizedAircraftMap.cs" />
     <Compile Include="NHibernateBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TeacherMap.cs" />
     <Compile Include="TranactionContext.cs" />
   </ItemGroup>
   <ItemGroup>

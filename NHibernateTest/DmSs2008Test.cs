@@ -234,6 +234,19 @@ namespace NHibernateTest
         }
 
         [Test]
+        public void SelectNumberOfFlightUnits_Since_01_01_2008_UsingICriteriaWithTypeSafeQueryOver()
+        {
+            Int32 flightUnits = TranactionContext.Execute(sessionFactory, session =>
+            {
+                return session.QueryOver<FlightUnit>()
+                    .Where(f => f.Date > new DateTime(2008, 1, 1))
+                    .RowCount();
+            });
+
+            Assert.That(flightUnits, Is.EqualTo(30), "number of flight units");
+        }
+
+        [Test]
         public void SelectNumbersOfAllMechanicsWhichLookAfterAircraft_WhereAircraftHasAnIdOfOne()
         {
             IList<Mechanic> mechanics = TranactionContext.Execute(sessionFactory, session =>
@@ -249,6 +262,28 @@ namespace NHibernateTest
 
             Assert.That(mechanics.Count, Is.EqualTo(4), "number of mechanic numbers");
             AssertMechanicNumbersOf(mechanics);
+        }
+
+        [Test]
+        public void DifferenceBetweenJoinAndIsIn_NoDmExerice()
+        {
+            var teachsers_flightunits = TranactionContext.Execute(sessionFactory, session => session.CreateQuery(
+
+                "select count(*) from Teacher as t join t.FlightUnits"
+
+                                                                                                 ).UniqueResult());
+
+            Assert.That(teachsers_flightunits, Is.EqualTo(84), "teachers' flight units");
+            
+            IList<Teacher> teachersHavingFlightUnits = TranactionContext.Execute(sessionFactory, session =>
+            {
+                return session.QueryOver<Teacher>()
+                    .Where(t => t.Number.IsIn(
+                        session.CreateQuery("select distinct Teacher.Number from FlightUnit").List()))
+                    .List();  
+            });
+
+            Assert.That(teachersHavingFlightUnits.Count, Is.EqualTo(12), "number of teacher who have flight units");
         }
 
         private static void AssertAttributeValuesForOneAircraftOf(IList aircrafts)
